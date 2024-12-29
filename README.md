@@ -1,4 +1,4 @@
-# PixArt PAJ7025R2 6dof Tracking Demo with Arduino and Windows (This Description was not written by me)
+# PixArt PAJ7025R2 6dof Tracking Demo with Arduino and Windows (This description was not written by me)
 
 *Copyright 2017-2019 Bart Trzynadlowski*
 
