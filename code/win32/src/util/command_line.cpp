@@ -13,8 +13,11 @@
 #include "util/format.hpp"
 #include "util/config.hpp"
 
-#include <boost/lexical_cast.hpp>
-#include <boost/filesystem.hpp>
+// Replace boost includes with standard library
+//#include <boost/lexical_cast.hpp>
+//#include <boost/filesystem.hpp>
+#include <filesystem>
+#include <sstream>
 #include <limits>
 #include <memory>
 #include <vector>
@@ -70,12 +73,14 @@ namespace util
       {
         int64_t v;
         bool not_an_integer = false;
-        try
-        {
-          v = boost::lexical_cast<int64_t>(value);
+        try {
+          std::stringstream ss(value);
+          ss >> v;
+          if (ss.fail()) {
+            not_an_integer = true;
+          }
         }
-        catch (boost::bad_lexical_cast &e)
-        {
+        catch (const std::exception&) {
           not_an_integer = true;
         }
         bool out_of_bounds = bounds_check_required ? !(v >= lower_bound && v <= upper_bound) : false;
@@ -698,7 +703,7 @@ namespace util
 
     static std::string program_name(char **argv)
     {
-      return boost::filesystem::path(argv[0]).stem().string();
+      return std::filesystem::path(argv[0]).stem().string();
     }
 
     static std::string syntax_description(const std::string &name, const option_definition &option)

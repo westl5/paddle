@@ -18,6 +18,7 @@ SRC_FILES_object_visualizer = \
 	src/serial/serial_port.cpp \
 	src/apps/object_visualizer/main.cpp
 
-LDFLAGS_object_visualizer = -lmingw32 -lSDL2main -lSDL2 $(addprefix -l,$(LIBS_OPENGL)) $(addprefix -l,$(LIBS_OPENCV))
+# CHANGED: Remove Windows-specific flags
+LDFLAGS_object_visualizer = $(addprefix -l,$(LIBS_OPENGL)) $(addprefix -l,$(LIBS_OPENCV))
 
 PROGRAMS += object_visualizer

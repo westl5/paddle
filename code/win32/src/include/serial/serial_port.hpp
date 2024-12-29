@@ -5,20 +5,33 @@
 #define ARDUINO_WAIT_TIME 2000
 #define MAX_DATA_LENGTH 255
 
+//handles mac and windows
 #include "serial/i_serial_device.hpp"
-#include <windows.h>
 #include <string>
+
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <termios.h>
+    #include <fcntl.h>
+#endif
 
 class serial_port: public i_serial_device
 {
 private:
-  static const constexpr DWORD ArduinoWaitTime = 2000;
+  static const constexpr uint32_t ArduinoWaitTime = 2000;
   static const constexpr size_t MaxDataLength = 255;
+  //handles mac and windows
+  #ifdef _WIN32
+        HANDLE m_handler;
+        COMSTAT m_status;
+        DWORD m_errors;
+    #else
+        int m_fd;
+        struct termios m_tty;
+    #endif
 
-  HANDLE m_handler;
-  bool m_connected;
-  COMSTAT m_status;
-  DWORD m_errors;
+    bool m_connected;
 
 public:
   serial_port(const std::string &port_name, unsigned baud_rate = 9600);
